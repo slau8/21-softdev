@@ -20,32 +20,32 @@ def retrieve_data(url):
     # print d
     return d
 
-#all restaurants in a specified borough
-def from_borough(boro):
-    qd = { "borough" : boro }
-    return r.find(qd)
+#finds all with hmag <= mag
+def from_hmag(mag):
+    qd = { "h_mag" : {"$lte" : mag }}
+    return nasa.find(qd)
 
-#all restaurants in a specified zipcode
-def from_zip(zip):
-    qd = { "address.zipcode" : zip }
-    return r.find(qd)
+#finds all in specified class
+def from_class(class):
+    qd = { "orbit_class" : class}
+    return nasa.find(qd)
 
-#all restaurants in a specified zipcode with a specified grade (e.g. A, B..)
-def from_zip_grade(zip, grade):
-    qd = { "$and" : [ { "address.zipcode" : zip }, { "grades.grade" : grade } ] } 
-    return r.find(qd)
+#all in a specified orbit class with period <= iperiod
+def from_class_period(class, iperiod):
+    qd = { "$and" : [ { "orbit_class" : class }, { "period_yr" : {"$lte" : iperiod } } ] } 
+    return nasa.find(qd)
 
-#all restaurants in a specified zipcode and a score below a threshold
+#all in a specified orbit class and a moid_au <= imoid
 #score must be inputted as int, not a string!
-def from_zip_score(zip, score):
-    qd = {"$and" : [{"address.zipcode" : zip}, {"grades.score" : {"$lt": score}}]}
-    return r.find(qd)
+def from_class_moid(zip, score):
+    qd = { "$and" : [ { "orbit_class" : class }, { "moid_au" : {"$lte" : imoid } } ] } 
+    return nasa.find(qd)
 
 #the "something clever"
-#Usually people want to find a specific type of food, no? 
-def from_zip_cuisine(zip, cuisine):
-    qd = {"$and" : [{"address.zipcode" : zip}, {"cuisine" : cuisine}]}
-    return r.find(qd)
+#Usually people want to find when something was discovered
+def from_discovery(discovery):
+    qd = {"discovery_date" : {"$lte" : discovery}}
+    return nasa.find(qd)
 
 #modular design ftw
 def loop_print(cursor):
