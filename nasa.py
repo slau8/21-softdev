@@ -26,20 +26,28 @@ def from_hmag(mag):
     return nasa.find(qd)
 
 #finds all in specified class
-def from_class(class):
-    qd = { "orbit_class" : class}
+def from_class(oclass):
+    qd = { "orbit_class" : oclass}
     return nasa.find(qd)
 
 #all in a specified orbit class with period <= iperiod
-def from_class_period(class, iperiod):
-    qd = { "$and" : [ { "orbit_class" : class }, { "period_yr" : {"$lte" : iperiod } } ] } 
-    return nasa.find(qd)
+def from_class_period(oclass, iperiod):
+    try:
+        iperiod = int(iperiod)
+        qd = { "$and" : [ { "orbit_class" : oclass }, { "period_yr" : {"$lte" : iperiod } } ] } 
+        return nasa.find(qd)
+    except:
+        return None
 
 #all in a specified orbit class and a moid_au <= imoid
 #score must be inputted as int, not a string!
-def from_class_moid(zip, score):
-    qd = { "$and" : [ { "orbit_class" : class }, { "moid_au" : {"$lte" : imoid } } ] } 
-    return nasa.find(qd)
+def from_class_moid(oclass, imoid):
+    try:
+        imoid = int(imoid)
+        qd = { "$and" : [ { "orbit_class" : oclass }, { "moid_au" : {"$lte" : imoid } } ] }
+        return nasa.find(qd)
+    except:
+        return None
 
 #the "something clever"
 #Usually people want to find when something was discovered
@@ -54,8 +62,13 @@ def loop_print(cursor):
 
 #function calls
 def main():
-    nasa_dict = retrieve_data(json)
-    nasa.insert_many(nasa_dict)
+    #nasa_dict = retrieve_data(json)
+    #nasa.insert_many(nasa_dict)
+    loop_print(from_hmag('3'))
+    loop_print(from_class_moid('Apollo', '2'))
+    loop_print(from_class("Apollo"))
+    loop_print(from_class_period("Apollo", "3"))
+    print "3" < "12"
     
 #run da main
 main()
