@@ -60,15 +60,44 @@ def loop_print(cursor):
     for i in cursor:
         print i
 
+def process():
+    nasa_dict = retrieve_data(json)
+    for i in nasa_dict:
+        #print i
+        #print repr(i["h_mag"])
+        try:
+            try:
+                i["h_mag"] = float(i["h_mag"])
+                print "yay!"
+            except:
+                pass
+            try:
+                i["q_au_2"] = float(i["q_au_2"])
+            except:
+                pass
+            try:
+                i["period_yr"] = float(i["period_yr"])
+            except:
+                pass
+            i["i_deg"] = float(i["i_deg"])
+            i["moid_au"] = float(i["moid_au"])
+            i["q_au_1"] = float(i["q_au_1"])
+        except:
+            pass
+    return nasa_dict
+
 #function calls
 def main():
     #nasa_dict = retrieve_data(json)
-    #nasa.insert_many(nasa_dict)
-    loop_print(from_hmag('3'))
-    loop_print(from_class_moid('Apollo', '2'))
+    #dict = process()
+    #nasa.insert_many(dict)
+    '''
+    loop_print(from_hmag(3))
+    loop_print(from_class_moid('Apollo', 2))
     loop_print(from_class("Apollo"))
-    loop_print(from_class_period("Apollo", "3"))
-    print "3" < "12"
+    '''
+    loop_print(from_class_period("Apollo", 3))
+    #print "3" < "12"
     
 #run da main
 main()
