@@ -11,13 +11,13 @@
       <div class="page-header">
         <h2>Asteroid and Comet Search&nbsp;&nbsp;<small>data provided by NASA</small></h2>
       </div>
-      <p>Search by...</p><br>
-      <div class="row">
+      <div class="row well">
+        <p>Search by...</p><br>
         <div class="col-lg-6">
           <form class="form-inline" action="/h_mag">
             <div class="form-group">
               <label for="email">Absolute magnitude value less than:</label><br>
-              <input type="text" class="form-control" placeholder="Ex: 5" name="h_mag">
+              <input type="text" class="form-control" placeholder="Ex: 20" name="h_mag" required>
             </div><br><br>
             <button type="submit" class="btn btn-default">Search</button>
           </form>
@@ -26,16 +26,41 @@
           <form class="form-inline" action="/orbit_class">
             <div class="form-group">
               <label for="email">Orbit class:</label><br>
-              <input type="text" class="form-control" placeholder="Ex: Apollo" name="orbit_class">
+              <input type="text" class="form-control" placeholder="Ex: Apollo" name="orbit_class" required>
             </div><br><br>
             <button type="submit" class="btn btn-default">Search</button>
           </form>
         </div>
       </div>
+      <br>
+      {% with msgs = get_flashed_messages() %}
+      {% for msg in msgs %}
+        <h4>{{ msg }}</h4>
+      {% endfor %}
+      {% endwith %}
       {% if data %}
-      <div class="table-hover">
-        hehe
-      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Designation</th>
+            <th>Discovery Date</th>
+            <th>Absolute Magnitude</th>
+            <th>Orbit Class</th>
+            <th>Period Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in data %}
+          <tr>
+            <td>{{ i["designation"] }}</td>
+            <td>{{ i["discovery_date"] }}</td>
+            <td>{{ i["h_mag"] }}</td>
+            <td>{{ i["orbit_class"] }}</td>
+            <td>{{ i["period_yr"] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
       {% endif %}
     </div>
   </body>

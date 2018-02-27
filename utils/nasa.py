@@ -23,19 +23,19 @@ def retrieve_data(url):
 
 #finds all with hmag < mag
 def from_hmag(mag):
-    qd = { "h_mag" : {"$lt" : mag }}
+    qd = { "h_mag" : {"$lt" : float(mag) }}
     return nasa.find(qd)
 
 #finds all in specified class
 def from_class(oclass):
-    qd = { "orbit_class" : oclass}
+    qd = { "orbit_class" : oclass.capitalize() }
     return nasa.find(qd)
 
 #all in a specified orbit class with period <= iperiod
 def from_class_period(oclass, iperiod):
     try:
         iperiod = int(iperiod)
-        qd = { "$and" : [ { "orbit_class" : oclass }, { "period_yr" : {"$lte" : iperiod } } ] }
+        qd = { "$and" : [ { "orbit_class" : oclass.capitalize() }, { "period_yr" : {"$lte" : iperiod } } ] }
         return nasa.find(qd)
     except:
         return None
@@ -45,7 +45,7 @@ def from_class_period(oclass, iperiod):
 def from_class_moid(oclass, imoid):
     try:
         imoid = int(imoid)
-        qd = { "$and" : [ { "orbit_class" : oclass }, { "moid_au" : {"$lte" : imoid } } ] }
+        qd = { "$and" : [ { "orbit_class" : oclass.capitalize() }, { "moid_au" : {"$lte" : imoid } } ] }
         return nasa.find(qd)
     except:
         return None
@@ -69,7 +69,6 @@ def process():
         try:
             try:
                 i["h_mag"] = float(i["h_mag"])
-                print "yay!"
             except:
                 pass
             try:
@@ -93,7 +92,7 @@ def main():
     dict = process()
     nasa.insert_many(dict)
 
-    # loop_print(from_hmag(3))
+    # loop_print(from_hmag(20))
     # loop_print(from_class_moid('Apollo', 2))
     # loop_print(from_class("Apollo"))
     # loop_print(from_class_period("Apollo", 3))
