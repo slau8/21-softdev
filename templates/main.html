@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title></title>
+    <title>Asteroid and Comet Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <h1>NASA DATA</h1>
-    <form action="/search" method="GET">
-      <button type="submit" value="GO!">
-    </form>
+    <div class="container">
+      <div class="page-header">
+        <h2>Asteroid and Comet Search&nbsp;&nbsp;<small>data provided by NASA</small></h2>
+      </div>
+      <p>Search by...</p><br>
+      <div class="row">
+        <div class="col-lg-6">
+          <form class="form-inline" action="/h_mag">
+            <div class="form-group">
+              <label for="email">Absolute magnitude value less than:</label><br>
+              <input type="text" class="form-control" placeholder="Ex: 5" name="h_mag">
+            </div><br><br>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <form class="form-inline" action="/orbit_class">
+            <div class="form-group">
+              <label for="email">Orbit class:</label><br>
+              <input type="text" class="form-control" placeholder="Ex: Apollo" name="orbit_class">
+            </div><br><br>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+        </div>
+      </div>
+      {% if data %}
+      <div class="table-hover">
+        hehe
+      </div>
+      {% endif %}
+    </div>
   </body>
 </html>

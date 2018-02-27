@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from utils import nasa
 
+import os
+
 app = Flask(__name__)
 app.secret_key = os.urandom(128)
 
@@ -12,4 +14,3 @@ def home():
 if __name__ == "__main__":
     app.debug = True
     app.run()
-

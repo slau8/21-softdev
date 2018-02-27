@@ -10,6 +10,7 @@ import requests
 '''
 
 c = MongoClient("lisa.stuy.edu")
+c.drop_database("heySui")
 nasa = c["heySui"]["nasa"]
 
 json = "https://data.nasa.gov/resource/2vr3-k9wn.json"
@@ -20,9 +21,9 @@ def retrieve_data(url):
     # print d
     return d
 
-#finds all with hmag <= mag
+#finds all with hmag < mag
 def from_hmag(mag):
-    qd = { "h_mag" : {"$lte" : mag }}
+    qd = { "h_mag" : {"$lt" : mag }}
     return nasa.find(qd)
 
 #finds all in specified class
@@ -34,7 +35,7 @@ def from_class(oclass):
 def from_class_period(oclass, iperiod):
     try:
         iperiod = int(iperiod)
-        qd = { "$and" : [ { "orbit_class" : oclass }, { "period_yr" : {"$lte" : iperiod } } ] } 
+        qd = { "$and" : [ { "orbit_class" : oclass }, { "period_yr" : {"$lte" : iperiod } } ] }
         return nasa.find(qd)
     except:
         return None
@@ -86,18 +87,17 @@ def process():
             pass
     return nasa_dict
 
-#function calls
+# function calls
 def main():
-    #nasa_dict = retrieve_data(json)
-    #dict = process()
-    #nasa.insert_many(dict)
-    '''
-    loop_print(from_hmag(3))
-    loop_print(from_class_moid('Apollo', 2))
-    loop_print(from_class("Apollo"))
-    '''
-    loop_print(from_class_period("Apollo", 3))
-    #print "3" < "12"
-    
-#run da main
-main()
+    nasa_dict = retrieve_data(json)
+    dict = process()
+    nasa.insert_many(dict)
+
+    # loop_print(from_hmag(3))
+    # loop_print(from_class_moid('Apollo', 2))
+    # loop_print(from_class("Apollo"))
+    # loop_print(from_class_period("Apollo", 3))
+    # #print "3" < "12"
+
+if __name__ == "__main__":
+    main()
